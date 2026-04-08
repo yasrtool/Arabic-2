@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>اختبار اللغة العربية — جامعة المستقبل</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Tajawal','Segoe UI',sans-serif;background:linear-gradient(135deg,#0f0c29 0%,#302b63 55%,#24243e 100%);min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:20px 16px 40px}
+.wrap{width:100%;max-width:720px;padding-top:10px}
+.scr{display:none;animation:fadeUp .45s ease}
+.scr.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+.card{background:rgba(255,255,255,.07);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border:1px solid rgba(255,255,255,.13);border-radius:28px;padding:38px 32px}
+/* ── Header ── */
+.hdr{text-align:center;margin-bottom:28px}
+.hdr-ico{font-size:3.8rem;line-height:1;margin-bottom:10px}
+.hdr h1{font-size:1.75rem;font-weight:900;color:#fff;margin-bottom:4px}
+.hdr p{color:rgba(255,255,255,.5);font-size:.9rem}
+/* ── Form ── */
+.fg{margin-bottom:16px}
+.fg label{display:block;color:rgba(255,255,255,.8);font-size:.93rem;font-weight:700;margin-bottom:7px}
+.fg input{width:100%;padding:13px 17px;background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.15);border-radius:14px;color:#fff;font-size:1.05rem;font-family:'Tajawal',sans-serif;transition:border-color .25s,background .25s;text-align:right}
+.fg input:focus{outline:none;border-color:#818cf8;background:rgba(129,140,248,.1)}
+.fg input::placeholder{color:rgba(255,255,255,.3)}
+.err{color:#f87171;font-size:.82rem;margin-top:5px;display:none}
+/* ── Buttons ── */
+.btn{width:100%;padding:15px;border:none;border-radius:50px;font-size:1.1rem;font-weight:800;cursor:pointer;font-family:'Tajawal',sans-serif;transition:transform .2s,box-shadow .2s;margin-top:8px}
+.btn-pur{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff}
+.btn-pur:hover{transform:translateY(-2px);box-shadow:0 12px 35px rgba(102,126,234,.45)}
+.btn-ghost{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.22);color:#fff;margin-top:12px}
+.btn-ghost:hover{background:rgba(255,255,255,.16)}
+/* ── Channel ── */
+.cd-ring{width:135px;height:135px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#ef4444);display:flex;align-items:center;justify-content:center;margin:18px auto;box-shadow:0 0 45px rgba(245,158,11,.45);animation:ring 1s ease-in-out infinite}
+@keyframes ring{0%,100%{transform:scale(1)}50%{transform:scale(1.09)}}
+.cd-n{font-size:3.8rem;font-weight:900;color:#fff}
+.ch-desc{text-align:center;color:rgba(255,255,255,.65);line-height:1.75;margin-bottom:22px;font-size:.95rem}
+.tg-btn{display:flex;align-items:center;justify-content:center;gap:10px;padding:16px;background:linear-gradient(135deg,#0099cc,#006da3);border:none;border-radius:50px;color:#fff;font-size:1.08rem;font-weight:800;cursor:pointer;font-family:'Tajawal',sans-serif;width:100%;transition:transform .2s,box-shadow .2s;text-decoration:none;margin-top:6px}
+.tg-btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(0,136,204,.4)}
+/* ── Quiz ── */
+.qz-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.qz-badge{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:6px 18px;border-radius:50px;font-size:.88rem;font-weight:800}
+.qz-stu{color:rgba(255,255,255,.5);font-size:.82rem}
+.prog-wrap{background:rgba(255,255,255,.1);border-radius:50px;height:8px;margin-bottom:22px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,#667eea,#a855f7);border-radius:50px;transition:width .5s cubic-bezier(.34,1.56,.64,1)}
+.q-txt{font-size:1.2rem;font-weight:800;color:#fff;line-height:1.85;margin-bottom:26px;border-right:4px solid #818cf8;padding-right:14px;text-align:right}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+@media(max-width:520px){.opts{grid-template-columns:1fr}}
+.opt{background:rgba(255,255,255,.07);border:2px solid rgba(255,255,255,.12);border-radius:16px;padding:13px 15px;color:#fff;font-size:.93rem;font-weight:600;cursor:pointer;transition:all .2s;text-align:right;font-family:'Tajawal',sans-serif;display:flex;align-items:center;gap:9px;line-height:1.5}
+.opt:hover:not(.lk){background:rgba(102,126,234,.28);border-color:#818cf8;transform:scale(1.02)}
+.opt.ok{background:rgba(34,197,94,.28)!important;border-color:#22c55e!important;animation:okAnim .35s ease}
+.opt.no{background:rgba(239,68,68,.28)!important;border-color:#ef4444!important;animation:noAnim .35s ease}
+.opt.lk{cursor:default}
+@keyframes okAnim{0%{transform:scale(1)}50%{transform:scale(1.04)}100%{transform:scale(1)}}
+@keyframes noAnim{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.opt-lbl{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.88rem;flex-shrink:0}
+/* ── Results ── */
+.res-hdr{text-align:center;margin-bottom:20px}
+.res-ico{font-size:4rem;line-height:1;margin-bottom:8px}
+.res-hdr h1{font-size:1.75rem;font-weight:900;color:#fff}
+.sc-ring{width:165px;height:165px;border-radius:50%;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 18px;box-shadow:0 0 55px rgba(102,126,234,.55)}
+.sc-big{font-size:3.2rem;font-weight:900;color:#fff;line-height:1}
+.sc-den{font-size:.9rem;color:rgba(255,255,255,.6)}
+.grade-box{text-align:center;padding:11px 18px;border-radius:14px;margin-bottom:18px;font-size:1rem;font-weight:700}
+.stats{display:flex;gap:11px;margin-bottom:22px}
+.st{flex:1;padding:16px;border-radius:16px;text-align:center}
+.st.g{background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.4)}
+.st.b{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.4)}
+.st-n{font-size:2.1rem;font-weight:900;color:#fff}
+.st-l{font-size:.78rem;color:rgba(255,255,255,.58);margin-top:3px}
+.rev-ttl{font-size:1rem;font-weight:800;color:#fbbf24;border-right:4px solid #fbbf24;padding-right:11px;margin-bottom:14px}
+.wl{max-height:430px;overflow-y:auto;padding-left:4px}
+.wl::-webkit-scrollbar{width:5px}
+.wl::-webkit-scrollbar-track{background:rgba(255,255,255,.04)}
+.wl::-webkit-scrollbar-thumb{background:#667eea;border-radius:3px}
+.wcard{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px;margin-bottom:10px}
+.wq{font-size:.88rem;font-weight:700;color:#fff;margin-bottom:9px;line-height:1.55}
+.tags{display:flex;gap:7px;flex-wrap:wrap}
+.tag{padding:4px 11px;border-radius:20px;font-size:.78rem;font-weight:600}
+.tag.yt{background:rgba(239,68,68,.2);border:1px solid #ef4444;color:#fca5a5}
+.tag.ct{background:rgba(34,197,94,.2);border:1px solid #22c55e;color:#86efac}
+.stu-res{text-align:center;color:rgba(255,255,255,.55);font-size:.88rem;margin-bottom:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ▌SCR 1 — Registration ▐ -->
+<div class="scr active" id="s-reg">
+  <div class="card">
+    <div class="hdr">
+      <div class="hdr-ico">📚</div>
+      <h1>اختبار اللغة العربية</h1>
+      <p>جامعة المستقبل · كلية التربية · المرحلة الثانية · 2025-2026</p>
+    </div>
+    <div class="fg"><label>الاسم الأول</label><input id="f1" type="text" placeholder="أدخل اسمك الأول"></div>
+    <div class="fg"><label>اسم الأب</label><input id="f2" type="text" placeholder="أدخل اسم أبيك"></div>
+    <div class="fg"><label>اسم الجد</label><input id="f3" type="text" placeholder="أدخل اسم جدك">
+      <div class="err" id="err">⚠️ يرجى إدخال الاسم الثلاثي كاملاً</div></div>
+    <button class="btn btn-pur" onclick="regSubmit()">🚀 بدء الاختبار</button>
+  </div>
+</div>
+
+<!-- ▌SCR 2 — Channel ▐ -->
+<div class="scr" id="s-ch">
+  <div class="card">
+    <div class="hdr">
+      <div class="hdr-ico">📢</div>
+      <h1>خطوة واحدة قبل البدء!</h1>
+      <p>يُرجى الانضمام إلى قناتنا على تيليغرام</p>
+    </div>
+    <div class="cd-ring"><span class="cd-n" id="cdn">3</span></div>
+    <p class="ch-desc">سيتم تحويلك تلقائياً خلال <strong id="cdtxt" style="color:#fbbf24">3</strong> ثوانٍ<br>أو اضغط الزر أدناه مباشرةً</p>
+    <button class="tg-btn" onclick="goChannel()">📱 الانضمام للقناة الآن</button>
+  </div>
+</div>
+
+<!-- ▌SCR 3 — Quiz ▐ -->
+<div class="scr" id="s-qz">
+  <div class="card">
+    <div class="qz-top">
+      <span class="qz-badge" id="qbadge">1 / 60</span>
+      <span class="qz-stu" id="qstu"></span>
+    </div>
+    <div class="prog-wrap"><div class="prog-fill" id="pfill" style="width:0%"></div></div>
+    <div class="q-txt" id="qtxt"></div>
+    <div class="opts" id="qopts"></div>
+  </div>
+</div>
+
+<!-- ▌SCR 4 — Results ▐ -->
+<div class="scr" id="s-res">
+  <div class="card">
+    <div class="res-hdr"><div class="res-ico" id="rico">🎉</div><h1>نتيجة الاختبار</h1></div>
+    <div class="stu-res" id="rname"></div>
+    <div class="sc-ring"><div class="sc-big" id="rsc">0</div><div class="sc-den">من 60 سؤال</div></div>
+    <div class="grade-box" id="gbox"></div>
+    <div class="stats">
+      <div class="st g"><div class="st-n" id="rcor">0</div><div class="st-l">✅ إجابات صحيحة</div></div>
+      <div class="st b"><div class="st-n" id="rwrg">0</div><div class="st-l">❌ إجابات خاطئة</div></div>
+    </div>
+    <div id="rev-sec">
+      <div class="rev-ttl">📋 مراجعة الإجابات الخاطئة</div>
+      <div class="wl" id="wlist"></div>
+    </div>
+    <button class="btn btn-pur" onclick="restart()" style="margin-top:18px">🔄 إعادة الاختبار</button>
+  </div>
+</div>
+
+</div>
+<script>
+const Q=[
+  // ══ إنَّ وأخواتها ══
+  {q:"ما عملُ إنَّ وأخواتها في الجملة الاسمية؟",o:["تنصب المبتدأ وترفع الخبر","ترفع المبتدأ وتنصب الخبر","تجزم المبتدأ والخبر معاً","لا تؤثر في الإعراب"],a:0},
+  {q:"أيُّ حروف إنَّ وأخواتها يدل على التشبيه؟",o:["إنَّ","أنَّ","كأنَّ","لعلَّ"],a:2},
+  {q:"أيُّ حروف إنَّ وأخواتها يدل على الترجّي؟",o:["ليت","لعلَّ","لكنَّ","كأنَّ"],a:1},
+  {q:"أيُّ حروف إنَّ وأخواتها يدل على التمني؟",o:["لعلَّ","لكنَّ","إنَّ","ليت"],a:3},
+  {q:"أيُّ حروف إنَّ وأخواتها يدل على الاستدراك؟",o:["لكنَّ","إنَّ","أنَّ","ليت"],a:0},
+  {q:"ما اسم اللام التي تقترن بخبر إنَّ للتوكيد؟",o:["لام الابتداء","لام القسم","اللام المزحلقة","لام التعليل"],a:2},
+  {q:"ما أثر (ما) الكافة عند دخولها على إنَّ وأخواتها؟",o:["تُعملها وتزيد في عملها","تكفّها عن العمل","تقلب معناها إلى النفي","لا تؤثر فيها مطلقاً"],a:1},
+  {q:"أيُّ أخوات إنَّ يجوز إعمالها وإهمالها بعد (ما) الكافة؟",o:["إنَّ","أنَّ","كأنَّ","ليت"],a:3},
+  {q:"متى يتقدم خبر إنَّ على اسمها وجوباً؟",o:["إذا كان الخبر شبه جملة والاسم نكرة تامة","إذا كان الاسم معرفة دائماً","إذا كان الخبر مفرداً فقط","لا يجوز تقدم الخبر أبداً"],a:0},
+  {q:"أيُّ أخوات إنَّ يدل على المعنى المصدري؟",o:["إنَّ","أنَّ","لعلَّ","ليت"],a:1},
+  // ══ كان وأخواتها ══
+  {q:"كان وأخواتها هي:",o:["أحرف ناسخة تدخل على الجملة الفعلية","أحرف ناسخة تدخل على الجملة الاسمية","أفعال ناقصة ناسخة تدخل على الجملة الاسمية","أسماء تُغيّر الجملة الاسمية"],a:2},
+  {q:"ما معنى (أصبح) من أفعال كان وأخواتها؟",o:["وقت الصباح","وقت الضحى","وقت المساء","وقت الليل"],a:0},
+  {q:"ما معنى (أضحى) من أفعال كان وأخواتها؟",o:["وقت الصباح","وقت المساء","وقت النهار","وقت الضحى"],a:3},
+  {q:"ما الفعل الذي يدل على النفي من كان وأخواتها؟",o:["صار","ليس","بات","ظل"],a:1},
+  {q:"ما نوع (ما) في التعبير (ما دام)؟",o:["نافية غير عاملة","زائدة لا عمل لها","مصدرية","استفهامية"],a:2},
+  {q:"ما الفعل الجامد الذي لا يتصرف من كان وأخواتها؟",o:["كان","أصبح","صار","ليس"],a:3},
+  {q:"كان التامة تكتفي بـ:",o:["مرفوع واحد (فاعل) ومعناها وُجِد أو حدث","اسم مرفوع وخبر منصوب","منصوب واحد فقط","لا تحتاج إلى معمول"],a:0},
+  {q:"ما معنى (بات) من أفعال كان وأخواتها؟",o:["وقت النهار","وقت الليل","وقت الصباح","وقت المساء"],a:1},
+  {q:"ما معنى (صار) من أفعال كان وأخواتها؟",o:["الاستمرار والديمومة","النفي والإنكار","التحويل والانتقال من حال إلى حال","الزمان الماضي البعيد"],a:2},
+  {q:"ما نوع (ما) في (ما زال وما انفكّ وما برح وما فتئ)؟",o:["مصدرية","زائدة","استفهامية","نافية غير عاملة"],a:3},
+  // ══ اسم التفضيل ══
+  {q:"ما وزن اسم التفضيل للمذكر؟",o:["أفعل","فَعَل","فاعل","مفعول"],a:0},
+  {q:"ما وزن اسم التفضيل للمؤنث؟",o:["فَعلاء","فُعلى","فاعلة","مفعولة"],a:1},
+  {q:"كم شرطاً يجب توافرها لصياغة اسم التفضيل بالطريقة المباشرة؟",o:["ثلاثة شروط","أربعة شروط","خمسة شروط","ستة شروط"],a:3},
+  {q:"لماذا لا يُصاغ اسم التفضيل مباشرةً من (ليس ونعم وبئس وعيسى)؟",o:["لأنها أفعال جامدة لا تتصرف","لأنها أفعال متعدية","لأنها على وزن أفعل أصلاً","لأنها أفعال ناقصة فقط"],a:0},
+  {q:"ما الترتيب الصحيح لأركان جملة التفضيل؟",o:["اسم التفضيل ثم المفضَّل ثم المفضَّل عليه","المفضَّل عليه ثم اسم التفضيل ثم المفضَّل","المفضَّل ثم اسم التفضيل ثم المفضَّل عليه","المفضَّل عليه ثم المفضَّل ثم اسم التفضيل"],a:2},
+  {q:"اسم التفضيل يلزم في الغالب حالة:",o:["التأنيث والجمع دائماً","التذكير والإفراد دائماً","التثنية في كل الأحوال","المطابقة التامة للموصوف"],a:1},
+  {q:"متى لا يُذكر المفضَّل عليه في جملة التفضيل؟",o:["إذا كان الاسم نكرة منكَّرة","دائماً يجب ذكره","إذا كان الاسم ضميراً متصلاً","إذا كان اسم التفضيل معرَّفاً بـ(ال)"],a:3},
+  {q:"في الطريقة غير المباشرة لصياغة اسم التفضيل نأتي بـ:",o:["مصدر الفعل صريحاً","الفعل الماضي مباشرة","اسم الفاعل من الفعل","الصفة المشبهة من الفعل"],a:0},
+  // ══ الصفة المشبهة ══
+  {q:"تُشتق الصفة المشبهة من:",o:["الفعل المتعدي الرباعي","الفعل الثلاثي الجامد","الفعل الثلاثي اللازم","الفعل الرباعي اللازم"],a:2},
+  {q:"تشبه الصفة المشبهة اسمَ الفاعل في:",o:["الدلالة على الحدوث والتجدد","الدلالة على زمن محدد","الدلالة على المكان","الدلالة على الوصف"],a:3},
+  {q:"الصفة المشبهة تدل على الوصف مع:",o:["الثبوت والدوام","الحدوث والتجدد","الزمن الماضي فقط","المستقبل فقط"],a:0},
+  {q:"على أيِّ وزن تأتي الصفة المشبهة إذا دلَّ الفعل على لون؟",o:["فَعِل ـ فَعِلة","أفعل ـ فعلاء","فَعلان ـ فَعلى","فَيعَل فقط"],a:1},
+  {q:"إذا كان معمول الصفة المشبهة معرَّفاً بـ(ال) يُعرب:",o:["تمييزاً","فاعلاً","مضافاً إليه","مفعولاً به"],a:2},
+  {q:"إذا كان معمول الصفة المشبهة نكرة منصوبة يُعرب:",o:["مضافاً إليه","مفعولاً به","فاعلاً","تمييزاً"],a:3},
+  {q:"كيف تُصاغ الصفة المشبهة من فعل معتل العين (الألف) مثل طاب وجاد؟",o:["على وزن فَيعَل","على وزن أفعل","على وزن فَعلان","على وزن فَعِل"],a:0},
+  // ══ السيرة النبوية ══
+  {q:"ما المعنى اللغوي لكلمة (السيرة)؟",o:["الحياة والعيش اليومي","الطريقة والهيئة والمنهج الذي يسير عليه الإنسان","القصة والرواية التاريخية","البطولة والجهاد في سبيل الله"],a:1},
+  {q:"ما الفرق بين السيرة النبوية والمغازي؟",o:["المغازي أشمل وتتناول كل جوانب الحياة","لا فرق بينهما وهما مترادفتان","المغازي تختص بغزوات النبي ورساياه والجوانب العسكرية","السيرة تختص بالغزوات فقط"],a:2},
+  {q:"الشمائل النبوية تعنى بـ:",o:["دراسة شاملة لحياة النبي في جميع جوانبها","غزوات النبي ورساياه العسكرية فقط","تفسير النصوص الشرعية وبيان الأحكام","صفاته الخَلقية والخُلقية كهيئته وأخلاقه وعبادته"],a:3},
+  {q:"لماذا سُمِّيت حياة النبي ﷺ بـ(السيرة النبوية)؟",o:["لأن السيرة تعني المنهج المتكامل في العقيدة والأخلاق والقيادة","لأنها مدوَّنة في كتب تاريخية قديمة","لأنها تُروى شفهياً من جيل إلى جيل","لأنها تختص بالجانب الديني دون السياسي"],a:0},
+  {q:"السيرة النبوية تمثل في حقيقتها:",o:["سرداً تاريخياً فحسب بلا دلالة دينية","تجسيداً عملياً للرسالة الإسلامية ومرآة لأخلاق النبي","كتاباً أدبياً تراثياً من التراث العربي","مجموعة من القصائد الشعرية الدينية"],a:1},
+  // ══ عمرو بن كلثوم ══
+  {q:"عمرو بن كلثوم شاعر ينتمي إلى عصر:",o:["العصر الإسلامي","العصر الأموي","العصر الجاهلي","العصر العباسي"],a:2},
+  {q:"تنتمي قبيلة عمرو بن كلثوم إلى:",o:["تغلب بن وائل","قريش","تميم","كندة"],a:0},
+  {q:"ينتهي نسب عمرو بن كلثوم إلى:",o:["قحطان","نزار","هاشم","معد بن عدنان"],a:3},
+  {q:"اسم والدة عمرو بن كلثوم:",o:["الخنساء","ليلى بنت المهلهل","هند بنت عتبة","سلمى"],a:1},
+  {q:"المهلهل الذي ذُكر في نسب عمرو بن كلثوم هو:",o:["والد الشاعر مباشرة","ملك الحيرة","أخو كليب المشهور","شاعر عباسي"],a:2},
+  {q:"تولى عمرو بن كلثوم سيادة قومه وعمره:",o:["خمسة عشر سنة","عشرون سنة","ثماني عشرة سنة","خمس وعشرون سنة"],a:0},
+  {q:"يُصنَّف عمرو بن كلثوم ضمن فئة:",o:["شعراء الغزل العذري","شعراء النقائض الأمويين","شعراء الحكمة والزهد","أصحاب المعلقات الجاهليين"],a:3},
+  {q:"عدد المعلقات الجاهلية المشهورة:",o:["خمس معلقات","سبع معلقات","ست معلقات","عشر معلقات"],a:1},
+  {q:"الطابع الغالب على شعر عمرو بن كلثوم:",o:["الغزل العذري","الرثاء الحزين","الفخر والحماسة","الزهد والتأمل"],a:2},
+  {q:"ملك الحيرة الذي قتله عمرو بن كلثوم هو:",o:["عمرو بن هند","النعمان بن المنذر","سيف بن ذي يزن","كسرى أنوشروان"],a:0},
+  {q:"السبب الحقيقي لقتل عمرو بن كلثوم لملك الحيرة:",o:["خلاف ديني عقدي","حرب قبلية مستمرة","خلاف حول قصيدة شعرية","إساءة الملك لأم الشاعر ليلى"],a:3},
+  {q:"النداء الذي صاحت به أم عمرو بن كلثوم حين أُهينت:",o:["وا معتصماه يا للعرب","وا ذُلاه يا لتغلب","وا عرباه وا قوماه","وا حرستاه وا نجدتاه"],a:1},
+  {q:"المثل العربي الشهير المرتبط بعمرو بن كلثوم:",o:["أحلم من الأحنف بن قيس","أكرم من حاتم الطائي","أفتك من عمرو بن كلثوم","أفصح من قس بن ساعدة"],a:2},
+  {q:"يُقدَّر عدد أبيات معلقة عمرو بن كلثوم بحوالي:",o:["96 بيتاً","50 بيتاً","70 بيتاً","120 بيتاً"],a:0},
+  {q:"الموضوع الذي بدأت به معلقة عمرو بن كلثوم:",o:["الرثاء والبكاء على الأطلال","الغزل بالمرأة المحبوبة","الحكمة وتعليم الناس","الفخر بقبيلته ومجدها"],a:3},
+  {q:"ديانة عمرو بن كلثوم على الأرجح كانت:",o:["الإسلام قبل البعثة","النصرانية","اليهودية","المجوسية والوثنية"],a:1},
+  {q:"استمرت قبيلة تغلب على ديانة النصرانية حتى:",o:["القرن الأول الهجري","القرن الثاني الهجري","القرن الثالث أو الرابع الهجري","القرن السادس الهجري"],a:2},
+  {q:"يُرجَّح أن مولد عمرو بن كلثوم كان في:",o:["بلاد ربيعة شمال الجزيرة العربية","العراق ومنطقة الحيرة","الشام والمنطقة الشمالية","الحجاز ومكة المكرمة"],a:0},
+  {q:"توفي عمرو بن كلثوم:",o:["مقتولاً في معركة","مسموماً من أعدائه","منتحراً","وفاةً طبيعيةً بعد عمر مديد"],a:3},
+  {q:"عمرو بن كلثوم يُعدّ رمزاً بارزاً في شعر:",o:["الحكمة والتأمل الفلسفي","الفخر القبلي في الشعر العربي القديم","الغزل والنسيب العذري","الزهد والتصوف"],a:1}
+];
+
+const LBL=['أ','ب','ج','د'];
+let sName='',cur=0,sc=0,ans=[],cdTimer=null;
+
+function show(id){document.querySelectorAll('.scr').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo({top:0,behavior:'smooth'})}
+
+function regSubmit(){
+  const a=document.getElementById('f1').value.trim();
+  const b=document.getElementById('f2').value.trim();
+  const c=document.getElementById('f3').value.trim();
+  const e=document.getElementById('err');
+  if(!a||!b||!c){e.style.display='block';return}
+  e.style.display='none';
+  sName=a+' '+b+' '+c;
+  try{localStorage.setItem('qname',sName)}catch(x){}
+  const visited=sessionStorage.getItem('chv');
+  if(visited){startQuiz()}else{runChannel()}
+}
+
+function runChannel(){
+  show('s-ch');
+  let n=3;
+  document.getElementById('cdn').textContent=n;
+  document.getElementById('cdtxt').textContent=n;
+  cdTimer=setInterval(()=>{
+    n--;
+    document.getElementById('cdn').textContent=n;
+    document.getElementById('cdtxt').textContent=n;
+    if(n<=0){
+      clearInterval(cdTimer);
+      sessionStorage.setItem('chv','1');
+      window.open('https://t.me/vgsscwe','_blank');
+      setTimeout(startQuiz,600);
+    }
+  },1000);
+}
+
+function goChannel(){
+  if(cdTimer)clearInterval(cdTimer);
+  sessionStorage.setItem('chv','1');
+  window.open('https://t.me/vgsscwe','_blank');
+  setTimeout(startQuiz,400);
+}
+
+function startQuiz(){
+  cur=0;sc=0;ans=[];
+  document.getElementById('qstu').textContent='🎓 '+sName;
+  show('s-qz');
+  renderQ();
+}
+
+function renderQ(){
+  const q=Q[cur],tot=Q.length;
+  document.getElementById('qbadge').textContent=(cur+1)+' / '+tot;
+  document.getElementById('pfill').style.width=(cur/tot*100)+'%';
+  document.getElementById('qtxt').textContent=q.q;
+  const c=document.getElementById('qopts');
+  c.innerHTML='';
+  q.o.forEach((op,i)=>{
+    const b=document.createElement('button');
+    b.className='opt';
+    b.innerHTML='<span class="opt-lbl">'+LBL[i]+'</span>'+op;
+    b.onclick=()=>pick(i);
+    c.appendChild(b);
+  });
+}
+
+function pick(i){
+  const q=Q[cur];
+  const btns=document.querySelectorAll('.opt');
+  btns.forEach(b=>b.classList.add('lk'));
+  btns[q.a].classList.add('ok');
+  const correct=i===q.a;
+  if(!correct)btns[i].classList.add('no');
+  else sc++;
+  ans.push({qi:cur,ch:i,cor:q.a,ok:correct});
+  setTimeout(()=>{cur++;if(cur<Q.length)renderQ();else showRes();},950);
+}
+
+function showRes(){
+  show('s-res');
+  document.getElementById('rname').textContent='🎓 '+sName;
+  document.getElementById('rsc').textContent=sc;
+  const wr=Q.length-sc;
+  document.getElementById('rcor').textContent=sc;
+  document.getElementById('rwrg').textContent=wr;
+  const pct=Math.round(sc/Q.length*100);
+  let ico='😞',msg='',bg='',cl='';
+  if(pct>=90){ico='🏆';msg='ممتاز — أداء رائع جداً';bg='rgba(34,197,94,.2)';cl='#86efac'}
+  else if(pct>=80){ico='🌟';msg='جيد جداً — استمر في التفوق';bg='rgba(99,102,241,.2)';cl='#a5b4fc'}
+  else if(pct>=70){ico='👍';msg='جيد — يمكنك تحسين أدائك';bg='rgba(234,179,8,.2)';cl='#fde047'}
+  else if(pct>=50){ico='📖';msg='مقبول — راجع المحاضرات';bg='rgba(249,115,22,.2)';cl='#fdba74'}
+  else{ico='❌';msg='ضعيف — يجب المراجعة الشاملة';bg='rgba(239,68,68,.2)';cl='#fca5a5'}
+  document.getElementById('rico').textContent=ico;
+  const gb=document.getElementById('gbox');
+  gb.style.background=bg;gb.style.color=cl;gb.style.border='1px solid '+cl;
+  gb.textContent=msg+' — '+pct+'%';
+  const wl=document.getElementById('wlist');
+  wl.innerHTML='';
+  const wrongs=ans.filter(a=>!a.ok);
+  if(!wrongs.length){
+    document.getElementById('rev-sec').innerHTML='<div style="text-align:center;color:#86efac;font-size:1rem;font-weight:700;padding:18px;background:rgba(34,197,94,.1);border-radius:14px">🎉 أجبت على جميع الأسئلة بشكل صحيح!</div>';
+    return;
+  }
+  wrongs.forEach(a=>{
+    const q=Q[a.qi];
+    const d=document.createElement('div');
+    d.className='wcard';
+    d.innerHTML='<div class="wq">س'+(a.qi+1)+': '+q.q+'</div><div class="tags"><span class="tag yt">❌ إجابتك: '+q.o[a.ch]+'</span><span class="tag ct">✅ الصحيحة: '+q.o[a.cor]+'</span></div>';
+    wl.appendChild(d);
+  });
+}
+
+function restart(){
+  if(cdTimer)clearInterval(cdTimer);
+  sc=0;cur=0;ans=[];sName='';
+  document.getElementById('f1').value='';
+  document.getElementById('f2').value='';
+  document.getElementById('f3').value='';
+  document.getElementById('err').style.display='none';
+  try{const n=localStorage.getItem('qname');if(n){const p=n.split(' ');document.getElementById('f1').value=p[0]||'';document.getElementById('f2').value=p[1]||'';document.getElementById('f3').value=p[2]||''}}catch(x){}
+  show('s-reg');
+}
+
+// Pre-fill from localStorage if available
+(function(){try{const n=localStorage.getItem('qname');if(n){const p=n.split(' ');document.getElementById('f1').value=p[0]||'';document.getElementById('f2').value=p[1]||'';document.getElementById('f3').value=p[2]||''}}catch(x){}})();
+</script>
+</body>
+</html>
