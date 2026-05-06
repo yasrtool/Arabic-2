@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>اختبار اللغة العربية - جامعة المستقبل</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #f0d080;
+    --gold-dark: #8b6914;
+    --deep: #0a0e1a;
+    --deep2: #111827;
+    --panel: #161d2e;
+    --panel2: #1e2a3e;
+    --text: #e8dfc8;
+    --text-dim: #9a8e78;
+    --correct: #22c55e;
+    --wrong: #ef4444;
+    --accent: #3b82f6;
+    --accent2: #8b5cf6;
+    --border: rgba(201,168,76,0.2);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Tajawal', sans-serif;
+    background: var(--deep);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Animated background */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background: 
+      radial-gradient(ellipse at 20% 20%, rgba(201,168,76,0.07) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(59,130,246,0.06) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgba(139,92,246,0.04) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ===== LANDING PAGE ===== */
+  #landing {
+    position: relative; z-index: 1;
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 40px 20px;
+    text-align: center;
+  }
+
+  .crest {
+    width: 100px; height: 100px;
+    border: 3px solid var(--gold);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 24px;
+    background: radial-gradient(circle, rgba(201,168,76,0.15), transparent);
+    box-shadow: 0 0 40px rgba(201,168,76,0.3), inset 0 0 20px rgba(201,168,76,0.1);
+    animation: pulse-crest 3s ease-in-out infinite;
+  }
+  .crest span { font-size: 44px; }
+
+  @keyframes pulse-crest {
+    0%,100% { box-shadow: 0 0 40px rgba(201,168,76,0.3), inset 0 0 20px rgba(201,168,76,0.1); }
+    50% { box-shadow: 0 0 70px rgba(201,168,76,0.5), inset 0 0 30px rgba(201,168,76,0.2); }
+  }
+
+  .uni-name {
+    font-family: 'Amiri', serif;
+    font-size: clamp(14px, 2vw, 18px);
+    color: var(--gold);
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+
+  .exam-title {
+    font-family: 'Amiri', serif;
+    font-size: clamp(32px, 6vw, 64px);
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dark));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 12px 0;
+    line-height: 1.2;
+  }
+
+  .exam-subtitle {
+    font-size: clamp(15px, 2.5vw, 20px);
+    color: var(--text-dim);
+    margin-bottom: 48px;
+    font-weight: 300;
+  }
+
+  .stats-row {
+    display: flex; gap: 24px; flex-wrap: wrap; justify-content: center;
+    margin-bottom: 48px;
+  }
+
+  .stat-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px 32px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .stat-card:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(201,168,76,0.15); }
+  .stat-card .num {
+    font-size: 36px; font-weight: 800;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .stat-card .label { font-size: 13px; color: var(--text-dim); margin-top: 4px; }
+
+  .sections-preview {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px; width: 100%; max-width: 1100px;
+    margin-bottom: 48px;
+  }
+
+  .sec-preview {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 22px;
+    display: flex; align-items: center; gap: 14px;
+    transition: all 0.2s;
+  }
+  .sec-preview:hover { border-color: var(--gold); background: var(--panel2); }
+  .sec-icon { font-size: 28px; }
+  .sec-info { text-align: right; }
+  .sec-info .sec-name { font-weight: 600; font-size: 15px; margin-bottom: 2px; }
+  .sec-info .sec-count { font-size: 12px; color: var(--gold); }
+
+  .start-btn {
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: var(--deep);
+    border: none;
+    border-radius: 50px;
+    padding: 18px 64px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 30px rgba(201,168,76,0.4);
+    letter-spacing: 1px;
+  }
+  .start-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 40px rgba(201,168,76,0.6);
+  }
+
+  /* ===== EXAM AREA ===== */
+  #exam-area { display: none; position: relative; z-index: 1; }
+
+  /* Top bar */
+  .topbar {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,14,26,0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 24px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .topbar-left { display: flex; align-items: center; gap: 12px; }
+  .topbar-title { font-family: 'Amiri', serif; font-size: 18px; color: var(--gold); font-weight: 700; }
+
+  .section-badge {
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: var(--deep);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .progress-wrap { flex: 1; min-width: 200px; max-width: 400px; }
+  .progress-label { font-size: 11px; color: var(--text-dim); margin-bottom: 4px; display: flex; justify-content: space-between; }
+  .progress-bar {
+    height: 6px; background: rgba(255,255,255,0.08); border-radius: 99px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    border-radius: 99px;
+    transition: width 0.4s ease;
+  }
+
+  .timer-box {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 6px 16px;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 2px;
+    font-family: monospace;
+  }
+
+  /* Section header */
+  .section-header {
+    background: linear-gradient(135deg, var(--panel2), var(--panel));
+    border-bottom: 2px solid var(--gold);
+    padding: 40px 32px 32px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .section-header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center top, rgba(201,168,76,0.12), transparent 60%);
+    pointer-events: none;
+  }
+
+  .section-num {
+    font-size: 12px; font-weight: 700; letter-spacing: 3px;
+    color: var(--gold); text-transform: uppercase; margin-bottom: 8px;
+  }
+
+  .section-title-main {
+    font-family: 'Amiri', serif;
+    font-size: clamp(24px, 4vw, 40px);
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    margin-bottom: 8px;
+  }
+
+  .section-desc {
+    font-size: 14px; color: var(--text-dim); max-width: 600px; margin: 0 auto;
+  }
+
+  .section-meta {
+    display: flex; justify-content: center; gap: 24px; margin-top: 20px; flex-wrap: wrap;
+  }
+  .section-meta span {
+    background: rgba(201,168,76,0.1);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 4px 16px;
+    font-size: 13px;
+    color: var(--gold);
+  }
+
+  /* Questions */
+  .questions-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 32px 20px;
+  }
+
+  .question-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin-bottom: 20px;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .question-card::before {
+    content: '';
+    position: absolute; top: 0; right: 0;
+    width: 4px; height: 100%;
+    background: linear-gradient(180deg, var(--gold), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .question-card:hover::before { opacity: 1; }
+  .question-card:hover { border-color: rgba(201,168,76,0.4); box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+
+  .question-card.answered { border-color: rgba(201,168,76,0.3); background: var(--panel2); }
+
+  .q-header { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 18px; }
+
+  .q-num {
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: var(--deep);
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 800;
+    flex-shrink: 0;
+  }
+
+  .q-difficulty {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+    margin-top: 2px;
+  }
+  .diff-easy { background: rgba(34,197,94,0.15); color: #4ade80; border: 1px solid rgba(34,197,94,0.3); }
+  .diff-medium { background: rgba(234,179,8,0.15); color: #fbbf24; border: 1px solid rgba(234,179,8,0.3); }
+  .diff-hard { background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
+
+  .q-text {
+    font-size: clamp(15px, 2.5vw, 18px);
+    line-height: 1.7;
+    font-weight: 500;
+    color: var(--text);
+    flex: 1;
+  }
+
+  .options-grid {
+    display: grid; gap: 10px;
+  }
+
+  .option-btn {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 14px 20px;
+    cursor: pointer;
+    text-align: right;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 15px;
+    color: var(--text);
+    transition: all 0.2s;
+    display: flex; align-items: center; gap: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .option-btn:hover:not(:disabled) {
+    background: rgba(201,168,76,0.08);
+    border-color: rgba(201,168,76,0.4);
+    transform: translateX(-3px);
+  }
+
+  .option-btn:disabled { cursor: default; }
+
+  .option-btn.selected {
+    background: rgba(201,168,76,0.12);
+    border-color: var(--gold);
+  }
+
+  .option-btn.correct {
+    background: rgba(34,197,94,0.15);
+    border-color: var(--correct);
+    color: #4ade80;
+  }
+
+  .option-btn.wrong {
+    background: rgba(239,68,68,0.12);
+    border-color: var(--wrong);
+    color: #f87171;
+  }
+
+  .option-btn.reveal-correct {
+    background: rgba(34,197,94,0.1);
+    border-color: rgba(34,197,94,0.5);
+    color: #4ade80;
+  }
+
+  .option-letter {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700;
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+  .option-btn.correct .option-letter { background: var(--correct); color: white; }
+  .option-btn.wrong .option-letter { background: var(--wrong); color: white; }
+  .option-btn.reveal-correct .option-letter { background: var(--correct); color: white; }
+
+  .option-text { flex: 1; }
+
+  .option-icon { font-size: 16px; margin-right: auto; }
+
+  /* Section actions */
+  .section-actions {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px 48px;
+    display: flex; justify-content: center;
+  }
+
+  .submit-section-btn {
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: var(--deep);
+    border: none;
+    border-radius: 50px;
+    padding: 16px 56px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 24px rgba(201,168,76,0.35);
+  }
+  .submit-section-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(201,168,76,0.55);
+  }
+  .submit-section-btn:disabled {
+    opacity: 0.5; cursor: default; transform: none;
+    box-shadow: none;
+  }
+
+  /* ===== RESULT PANEL ===== */
+  .result-panel {
+    display: none;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px 48px;
+  }
+
+  .result-card {
+    background: var(--panel2);
+    border: 2px solid var(--gold);
+    border-radius: 20px;
+    padding: 40px 32px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+
+  .result-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center top, rgba(201,168,76,0.12), transparent 60%);
+  }
+
+  .result-icon { font-size: 60px; margin-bottom: 16px; }
+
+  .result-grade {
+    font-family: 'Amiri', serif;
+    font-size: clamp(40px, 8vw, 80px);
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .result-label { font-size: 20px; font-weight: 600; margin-bottom: 24px; }
+
+  .result-stats {
+    display: flex; justify-content: center; gap: 24px; flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+
+  .res-stat {
+    background: rgba(255,255,255,0.05);
+    border-radius: 12px;
+    padding: 16px 24px;
+    min-width: 100px;
+  }
+  .res-stat .rs-num { font-size: 28px; font-weight: 800; margin-bottom: 4px; }
+  .res-stat .rs-label { font-size: 12px; color: var(--text-dim); }
+  .rs-correct .rs-num { color: #4ade80; }
+  .rs-wrong .rs-num { color: #f87171; }
+  .rs-score .rs-num { color: var(--gold); }
+
+  .result-message {
+    font-size: 18px; color: var(--text-dim); margin-bottom: 32px;
+    font-family: 'Amiri', serif;
+  }
+
+  .result-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+  .btn-next-section {
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: var(--deep);
+    border: none;
+    border-radius: 50px;
+    padding: 14px 48px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 20px rgba(201,168,76,0.3);
+  }
+  .btn-next-section:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(201,168,76,0.5); }
+
+  .btn-review {
+    background: transparent;
+    color: var(--gold);
+    border: 2px solid var(--gold);
+    border-radius: 50px;
+    padding: 12px 36px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .btn-review:hover { background: rgba(201,168,76,0.1); }
+
+  /* Review list */
+  .review-list { display: none; }
+
+  .review-item {
+    background: var(--panel);
+    border-radius: 14px;
+    padding: 20px 24px;
+    margin-bottom: 14px;
+    border: 1px solid var(--border);
+  }
+
+  .review-item.correct-item { border-right: 4px solid var(--correct); }
+  .review-item.wrong-item { border-right: 4px solid var(--wrong); }
+
+  .review-q { font-size: 15px; margin-bottom: 10px; line-height: 1.6; }
+
+  .review-answer {
+    font-size: 13px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    margin-top: 6px;
+    display: inline-block;
+  }
+  .review-correct-ans { background: rgba(34,197,94,0.12); color: #4ade80; }
+  .review-wrong-ans { background: rgba(239,68,68,0.12); color: #f87171; text-decoration: line-through; }
+
+  /* Final summary */
+  #final-summary {
+    display: none;
+    position: relative; z-index: 1;
+    min-height: 100vh;
+    display: none; flex-direction: column; align-items: center; justify-content: center;
+    padding: 60px 20px;
+    text-align: center;
+  }
+
+  .final-trophy { font-size: 80px; margin-bottom: 24px; animation: bounce 1s ease infinite alternate; }
+  @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-12px); } }
+
+  .final-title {
+    font-family: 'Amiri', serif;
+    font-size: clamp(28px, 5vw, 52px);
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    margin-bottom: 12px;
+  }
+
+  .final-total {
+    font-size: 80px; font-weight: 900;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    margin: 16px 0;
+  }
+
+  .final-breakdown {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px; width: 100%; max-width: 900px; margin: 32px auto;
+  }
+
+  .fb-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+  }
+  .fb-card .fb-sec { font-size: 13px; color: var(--text-dim); margin-bottom: 8px; }
+  .fb-card .fb-score { font-size: 24px; font-weight: 800; color: var(--gold); }
+  .fb-card .fb-bar { height: 4px; background: rgba(255,255,255,0.08); border-radius: 99px; margin-top: 8px; overflow: hidden; }
+  .fb-card .fb-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-light)); border-radius: 99px; transition: width 1s ease; }
+
+  .btn-restart {
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    color: var(--deep);
+    border: none;
+    border-radius: 50px;
+    padding: 16px 56px;
+    font-family: 'Tajawal', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 24px rgba(201,168,76,0.35);
+    margin-top: 8px;
+  }
+  .btn-restart:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(201,168,76,0.55); }
+
+  /* Confetti */
+  .confetti { position: fixed; pointer-events: none; z-index: 999; }
+
+  /* Responsive */
+  @media(max-width: 600px) {
+    .topbar { padding: 10px 14px; }
+    .question-card { padding: 20px 16px; }
+    .result-card { padding: 28px 18px; }
+    .questions-container { padding: 20px 12px; }
+  }
+
+  /* Animations */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .fade-in { animation: fadeInUp 0.5s ease forwards; }
+  .fade-in-delay-1 { animation: fadeInUp 0.5s 0.1s ease both; }
+  .fade-in-delay-2 { animation: fadeInUp 0.5s 0.2s ease both; }
+  .fade-in-delay-3 { animation: fadeInUp 0.5s 0.3s ease both; }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  /* Question entry animation */
+  .question-card { animation: fadeInUp 0.4s ease both; }
+</style>
+</head>
+<body>
+
+<!-- LANDING PAGE -->
+<div id="landing">
+  <div class="crest"><span>📖</span></div>
+  <div class="uni-name">جامعة المستقبل — كلية التربية</div>
+  <h1 class="exam-title">اختبار اللغة العربية</h1>
+  <p class="exam-subtitle">اختبار شامل | المرحلة الثانية — الفصل الثاني</p>
+
+  <div class="stats-row fade-in-delay-1">
+    <div class="stat-card">
+      <div class="num">175</div>
+      <div class="label">سؤال إجمالي</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">7</div>
+      <div class="label">أقسام</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">25</div>
+      <div class="label">سؤال لكل قسم</div>
+    </div>
+  </div>
+
+  <div class="sections-preview fade-in-delay-2">
+    <div class="sec-preview"><span class="sec-icon">✍️</span><div class="sec-info"><div class="sec-name">اسم الفاعل</div><div class="sec-count">25 سؤال</div></div></div>
+    <div class="sec-preview"><span class="sec-icon">📝</span><div class="sec-info"><div class="sec-name">اسم المفعول</div><div class="sec-count">25 سؤال</div></div></div>
+    <div class="sec-preview"><span class="sec-icon">🔢</span><div class="sec-info"><div class="sec-name">العدد والمعدود</div><div class="sec-count">25 سؤال</div></div></div>
+    <div class="sec-preview"><span class="sec-icon">⚖️</span><div class="sec-info"><div class="sec-name">كان وأخواتها</div><div class="sec-count">25 سؤال</div></div></div>
+    <div class="sec-preview"><span class="sec-icon">💡</span><div class="sec-info"><div class="sec-name">إن وأخواتها</div><div class="sec-count">25 سؤال</div></div></div>
+    <div class="sec-preview"><span class="sec-icon">🏆</span><div class="sec-info"><div class="sec-name">اسم التفضيل</div><div class="sec-count">25 سؤال</div></div></div>
+    <div class="sec-preview"><span class="sec-icon">🌟</span><div class="sec-info"><div class="sec-name">الصفة المشبهة والسيرة</div><div class="sec-count">25 سؤال</div></div></div>
+  </div>
+
+  <button class="start-btn fade-in-delay-3" onclick="startExam()">ابدأ الاختبار ←</button>
+</div>
+
+<!-- EXAM AREA -->
+<div id="exam-area"></div>
+
+<!-- FINAL SUMMARY -->
+<div id="final-summary">
+  <div class="final-trophy">🏆</div>
+  <div class="final-title">أنجزت الاختبار بنجاح!</div>
+  <div style="color:var(--text-dim); font-size:18px; margin-bottom:8px;">مجموع نتائجك في جميع الأقسام</div>
+  <div class="final-total" id="final-pct">0%</div>
+  <div id="final-breakdown" class="final-breakdown"></div>
+  <button class="btn-restart" onclick="location.reload()">🔄 إعادة الاختبار</button>
+</div>
+
+<script>
+// ===========================
+// DATA: All 175 Questions
+// ===========================
+const sections = [
+  {
+    id: 1,
+    title: "اسم الفاعل",
+    desc: "قواعد اشتقاق اسم الفاعل وأوزانه وعمله وشروطه",
+    icon: "✍️",
+    color: "#c9a84c",
+    questions: [
+      { q: "اسم الفاعل هو اسم مشتق يدل على:", opts: ["من وقع عليه الفعل","من قام بالفعل أو اتصف به","الفعل المبني للمجهول","الصفة الثابتة"], a: 1, d: "easy" },
+      { q: "وزن اسم الفاعل من الفعل الثلاثي هو:", opts: ["مفعول","فاعل","مفعِل","أفعل"], a: 1, d: "easy" },
+      { q: "اسم الفاعل من الفعل (كَتَبَ) هو:", opts: ["مكتوب","كتيب","كاتب","مكتب"], a: 2, d: "easy" },
+      { q: "عند صياغة اسم الفاعل من الفعل الرباعي المجرد يكون على وزن:", opts: ["مفعول","فاعل","مُفعِل","مستفعِل"], a: 2, d: "medium" },
+      { q: "اسم الفاعل من الفعل (أكرم) هو:", opts: ["كارم","مكروم","مُكرِم","كريم"], a: 2, d: "medium" },
+      { q: "كيف يُصاغ اسم الفاعل من الفعل الخماسي والسداسي؟", opts: ["على وزن فاعل","بإبدال حرف المضارعة ميماً مضمومة وكسر ما قبل الآخر","على وزن مفعول","بزيادة ألف بعد الفاء"], a: 1, d: "hard" },
+      { q: "اسم الفاعل من الفعل (استخرج) هو:", opts: ["مستخرَج","خارج","مستخرِج","استخراج"], a: 2, d: "hard" },
+      { q: "يُشترط في اسم الفاعل أن يُشتق من الأفعال:", opts: ["الجامدة","المتصرفة","الناقصة","الجميعها"], a: 1, d: "easy" },
+      { q: "من شروط اسم الفاعل أنه يدل على:", opts: ["الزمان والمكان","الحدث والحدوث","الآلة والأداة","العدد والمعدود"], a: 1, d: "easy" },
+      { q: "لا يُشتق اسم الفاعل من:", opts: ["الفعل الثلاثي","الفعل الخماسي","الأفعال الجامدة","الفعل الرباعي"], a: 2, d: "medium" },
+      { q: "عمل اسم الفاعل يشترط أن يدل على:", opts: ["الزمن الماضي فقط","الحال والاستقبال","الزمن المستقبل فقط","لا يشترط زمن"], a: 1, d: "medium" },
+      { q: "في جملة (ما قائل الحق إلا محمود) اعتمد اسم الفاعل على:", opts: ["الاستفهام","النفي","النداء","الإخبار"], a: 1, d: "hard" },
+      { q: "في جملة (قال أراغبٌ أنت) اعتمد اسم الفاعل على:", opts: ["النفي","الاستفهام","النداء","الإضافة"], a: 1, d: "hard" },
+      { q: "يعمل اسم الفاعل عمل فعله فيرفع:", opts: ["مفعولاً به","نائب فاعل","فاعلاً وينصب مفعولاً به","خبراً"], a: 2, d: "medium" },
+      { q: "في جملة (يا طالباً ثواب الله) وقع اسم الفاعل:", opts: ["فاعلاً","منادى","حالاً","تمييزاً"], a: 1, d: "hard" },
+      { q: "أمثلة اسم الفاعل: كاتب، قارئ، مؤمن — من أي فعل اشتُق (مؤمن)؟", opts: ["آمن","أمَن","أمِن","كل ما سبق"], a: 0, d: "medium" },
+      { q: "كيف تصوغ اسم الفاعل من الفعل (انطلق)؟", opts: ["طالق","منطلَق","منطلِق","نطّاق"], a: 2, d: "hard" },
+      { q: "اسم الفاعل المعرف بـ(ال) يعمل:", opts: ["بشروط","بلا قيد أو شرط","بشرط الإفراد فقط","لا يعمل"], a: 1, d: "medium" },
+      { q: "وزن اسم الفاعل من الفعل (رسم) هو:", opts: ["مرسوم","راسم","رسّام","مرتسِم"], a: 1, d: "easy" },
+      { q: "الأساس الذي يُعتمد عليه عند صياغة اسم الفاعل من الفعل غير الثلاثي هو:", opts: ["الفعل الماضي","الفعل المضارع","المصدر","اسم المكان"], a: 1, d: "medium" },
+      { q: "أي من التالي هو اسم فاعل من فعل خماسي؟", opts: ["كاتب","مُكرِم","مُستخرِج","قارئ"], a: 2, d: "hard" },
+      { q: "اسم الفاعل من الفعل (اشتنشق) هو:", opts: ["مُستنشَق","مشتنِق","شانق","مُشتنِق"], a: 3, d: "hard" },
+      { q: "في جملة (هذا طالب علم الآن) يدل اسم الفاعل على:", opts: ["الماضي","الحال","الاستقبال","الدوام"], a: 1, d: "medium" },
+      { q: "الفعل الثلاثي اللازم يصاغ منه اسم الفاعل على وزن:", opts: ["مفعول فقط","فاعل فقط","مُفعِل فقط","فاعل أو أفعل"], a: 1, d: "easy" },
+      { q: "أي جملة تُمثل اسم الفاعل الذي يعمل بالاعتماد على النفي؟", opts: ["هذا قارئ كتاباً","ما قائلٌ الحقَ إلا محمود","يا كاتباً درسه","الكاتب الرسالة ناجح"], a: 1, d: "hard" }
+    ]
+  },
+  {
+    id: 2,
+    title: "اسم المفعول",
+    desc: "قواعد اشتقاق اسم المفعول وصياغته وأوزانه وعمله",
+    icon: "📝",
+    color: "#3b82f6",
+    questions: [
+      { q: "اسم المفعول هو اسم مشتق يدل على:", opts: ["من قام بالفعل","من وقع عليه الفعل","الصفة الثابتة","الفعل المبني للمعلوم"], a: 1, d: "easy" },
+      { q: "يُشتق اسم المفعول من الفعل المبني:", opts: ["للمعلوم","للمجهول","للفاعل","للحاضر"], a: 1, d: "easy" },
+      { q: "وزن اسم المفعول من الفعل الثلاثي هو:", opts: ["فاعل","مُفعِل","مفعول","أفعل"], a: 2, d: "easy" },
+      { q: "اسم المفعول من الفعل (كَتَبَ) هو:", opts: ["كاتب","كِتاب","مكتوب","كتيب"], a: 2, d: "easy" },
+      { q: "اسم المفعول من الفعل (رَسَمَ) هو:", opts: ["راسم","مرسوم","رسّام","مرسِم"], a: 1, d: "easy" },
+      { q: "إذا كان الفعل الثلاثي معتل الوسط (الألف) يُصاغ اسم المفعول:", opts: ["على وزن مفعول","على وزن مضارعه مع استبداله ميماً مضمومة","بتشديد الحرف الأخير","على وزن فاعل"], a: 1, d: "hard" },
+      { q: "اسم المفعول من الفعل (صاغ) هو:", opts: ["صائغ","مصوغ","مصاغ","صيّاغ"], a: 1, d: "hard" },
+      { q: "إذا كان الفعل الثلاثي معتل الآخر (الياء) يُصاغ اسم المفعول:", opts: ["على وزن مفعول","على وزن مضارعه مع تشديد الحرف الأخير","بإبدال الياء واواً","يبقى كما هو"], a: 1, d: "hard" },
+      { q: "اسم المفعول من الفعل (هدى — يهدي) هو:", opts: ["هادٍ","مهديّ","مهدوّ","هديّ"], a: 1, d: "hard" },
+      { q: "اسم المفعول من الفعل غير الثلاثي يُصاغ بـ:", opts: ["إبدال حرف المضارعة ميماً مضمومة وكسر ما قبل الآخر","إبدال حرف المضارعة ميماً مضمومة وفتح ما قبل الآخر","زيادة ألف في أوله","على وزن مفعول فقط"], a: 1, d: "hard" },
+      { q: "اسم المفعول من الفعل (اشتنشق) هو:", opts: ["مُشتنِق","مُستنشَق","مُستنشِق","شانق"], a: 1, d: "hard" },
+      { q: "يُعرب اسم المفعول حسب موقعه في الجملة، فقد يكون:", opts: ["فاعلاً فقط","مفعولاً به فقط","فاعلاً أو مفعولاً به أو مجروراً","لا يُعرب"], a: 2, d: "medium" },
+      { q: "يعمل اسم المفعول عمل فعله المبني للمجهول، فيرفع:", opts: ["فاعلاً","مفعولاً به","نائب فاعل","حالاً"], a: 2, d: "medium" },
+      { q: "في جملة (هذا الرجل مشهودٌ عدله) أعرب كلمة (عدله):", opts: ["فاعل","نائب فاعل مرفوع","مفعول به","مضاف إليه"], a: 1, d: "hard" },
+      { q: "شرط عمل اسم المفعول المعرف بـ(ال) أنه يعمل:", opts: ["بدون قيد أو شرط","بشروط معينة","لا يعمل أبداً","بشرط وجود مفعول به"], a: 0, d: "medium" },
+      { q: "في جملة (المحمود خُلقُه محبوب) ما إعراب (خُلقه)؟", opts: ["فاعل مرفوع","نائب فاعل مرفوع","مفعول به","حال"], a: 1, d: "hard" },
+      { q: "الفرق الرئيسي بين اسم الفاعل واسم المفعول هو:", opts: ["الوزن فقط","أن اسم الفاعل يشتق من المعلوم وينصب مفعولاً، واسم المفعول من المجهول ويرفع نائب فاعل","لا فرق بينهما","الوزن والمعنى والاستخدام"], a: 1, d: "medium" },
+      { q: "اسم المفعول من الفعل (أكرم) هو:", opts: ["كارم","مُكرِم","مُكرَم","كريم"], a: 2, d: "medium" },
+      { q: "اسم المفعول من الفعل (استقبح) هو:", opts: ["مُستقبِح","مُستقبَح","قبيح","مقبوح"], a: 1, d: "hard" },
+      { q: "أي مثال يوضح اسم المفعول الذي يعمل بالنصب؟", opts: ["المحمود خُلقه","أكره المُستقبَح فعله","هذا مكتوب جيد","مررت بمكتوب جميل"], a: 1, d: "hard" },
+      { q: "اسم المفعول من الفعل (انطلق) هو:", opts: ["منطلِق","مُطلَق","مُنطلَق","طلوق"], a: 2, d: "hard" },
+      { q: "أمثلة اسم المفعول: كُتِب — مَكتوب. ما وزن (مَكتوب)؟", opts: ["فاعل","مُفعِل","مفعول","أفعل"], a: 2, d: "easy" },
+      { q: "يدل اسم المفعول على:", opts: ["من قام بالفعل","من وقع عليه الفعل","الصفة الثابتة","المكان"], a: 1, d: "easy" },
+      { q: "إذا كان اسم المفعول نكرة فإنه يعمل بشرط:", opts: ["أن يدل على الحال والاستقبال ويقع في مواضع معينة","أن يكون معرفاً دائماً","لا يعمل نكرة أبداً","أن يسبقه نفي"], a: 0, d: "hard" },
+      { q: "من أوزان اسم المفعول من الفعل الثلاثي الصحيح:", opts: ["مُفعِل","فاعِل","مَفعول","أفعل"], a: 2, d: "easy" }
+    ]
+  },
+  {
+    id: 3,
+    title: "العدد والمعدود",
+    desc: "قواعد العدد والمعدود من حيث التذكير والتأنيث والإعراب",
+    icon: "🔢",
+    color: "#22c55e",
+    questions: [
+      { q: "الأعداد (1، 2) تتعامل مع المعدود بـ:", opts: ["المخالفة","المطابقة","الإفراد دائماً","الجمع دائماً"], a: 1, d: "easy" },
+      { q: "الأعداد من (3 إلى 10) تتعامل مع المعدود بـ:", opts: ["المطابقة","المخالفة","الإفراد","الجمع"], a: 1, d: "easy" },
+      { q: "المعدود في جملة (شاهدتُ ثلاثةَ رجالٍ) يأتي:", opts: ["مفرداً منصوباً","جمعاً مجروراً","مثنى مرفوعاً","مفرداً مجروراً"], a: 1, d: "medium" },
+      { q: "في جملة (عندي أربعُ نساءٍ) العدد (أربع) يخالف المعدود في:", opts: ["العدد","التذكير والتأنيث","الجنس","الإعراب"], a: 1, d: "medium" },
+      { q: "الأعداد المركبة (11، 12) تتعامل مع المعدود بـ:", opts: ["المخالفة في الجزأين","المطابقة في الجزأين","المخالفة في الأول والمطابقة في الثاني","لا توافق"], a: 1, d: "medium" },
+      { q: "في جملة (عندي إحدى عشرة طالبةً) العدد والمعدود:", opts: ["يتخالفان","يتطابقان","الأول يخالف والثاني يطابق","لا قاعدة"], a: 1, d: "medium" },
+      { q: "في جملة (عندي أحدَ عشرَ رجلاً) إعراب (أحد عشر):", opts: ["مبتدأ مرفوع","عدد مركب مبني على فتح الجزأين","فاعل مرفوع","مفعول به"], a: 1, d: "hard" },
+      { q: "تمييز الأعداد المركبة (11-19) يأتي:", opts: ["جمعاً مجروراً","مفرداً منصوباً","جمعاً مرفوعاً","مفرداً مرفوعاً"], a: 1, d: "medium" },
+      { q: "الأعداد من (13 إلى 19) فيها:", opts: ["كلا الجزأين يطابقان المعدود","الجزء الأول يخالف والثاني يطابق المعدود","الجزء الأول يطابق والثاني يخالف","كلاهما يخالفان"], a: 1, d: "hard" },
+      { q: "في جملة (عندي ثلاثةَ عشرَ رجلاً) الجزء الأول (ثلاثة):", opts: ["يطابق المعدود","يخالف المعدود","لا قاعدة له","يُضاف للمعدود"], a: 1, d: "hard" },
+      { q: "الأعداد (20، 30، 40... 90) تسمى:", opts: ["أعداد مركبة","ألفاظ العقود","أعداد معطوفة","أعداد مفردة"], a: 1, d: "medium" },
+      { q: "ألفاظ العقود (20-90) تأتي على:", opts: ["لفظ واحد ويُعرب بالحركات","لفظين","لفظ واحد ويُلحق بجمع المذكر السالم","لفظين ويُبنى"], a: 2, d: "medium" },
+      { q: "في جملة (جاء عشرون رجلاً) إعراب (عشرون):", opts: ["مبتدأ مرفوع بالضمة","فاعل مرفوع بالواو لأنه ملحق بجمع المذكر السالم","عدد مبني","فاعل مبني"], a: 1, d: "hard" },
+      { q: "تمييز ألفاظ العقود (20-90) يأتي:", opts: ["جمعاً مجروراً","مفرداً منصوباً","جمعاً مرفوعاً","بدون تمييز"], a: 1, d: "medium" },
+      { q: "الأعداد المعطوفة (21-99) يُعرب فيها:", opts: ["الجزء الأول يُعرب إعراب الأعداد المفردة والثاني إعراب ألفاظ العقود","كلاهما يبنيان على الفتح","الجزء الأول مبني والثاني معرب","كلاهما يعربان بالحركات"], a: 0, d: "hard" },
+      { q: "في جملة (شاهدتُ أحدَ وعشرين رجلاً) إعراب (عشرين):", opts: ["مفعول به","اسم معطوف منصوب بالياء لأنه ملحق بجمع المذكر السالم","تمييز","فاعل"], a: 1, d: "hard" },
+      { q: "الأعداد (100، 1000) تأتي على:", opts: ["لفظين","لفظ واحد ويُعرب بالحركات","مبنية على الفتح","ملحقة بجمع المذكر السالم"], a: 1, d: "medium" },
+      { q: "تمييز العدد مئة (100) يأتي:", opts: ["جمعاً مجروراً","مفرداً مجروراً","مفرداً منصوباً","جمعاً منصوباً"], a: 1, d: "medium" },
+      { q: "في جملة (عندي مائةُ درهمٍ) إعراب (مائة):", opts: ["فاعل مرفوع","مبتدأ مرفوع بالضمة","مفعول به","عدد مبني"], a: 1, d: "medium" },
+      { q: "الجزء الثاني من الأعداد المركبة (13-19) — وهو (عشرة/عشر) — يُعامل:", opts: ["معاملة الأعداد المفردة","معاملة المعدود دائماً","يطابق المعدود","يخالف المعدود دائماً"], a: 2, d: "hard" },
+      { q: "في (عندي كتابٌ واحدٌ) العدد (واحد) يأتي:", opts: ["قبل المعدود","بعد المعدود كصفة","في منتصف الجملة","في أول الجملة"], a: 1, d: "easy" },
+      { q: "تمييز الأعداد (3-10) يأتي:", opts: ["مفرداً منصوباً","جمعاً مجروراً","مفرداً مجروراً","جمعاً منصوباً"], a: 1, d: "medium" },
+      { q: "في (ثلاثةُ أيامٍ) لماذا جاء المعدود (أيام) جمعاً مجروراً؟", opts: ["لأنه تمييز للأعداد 1-2","لأنه تمييز للأعداد 3-10","لأنه تمييز للعقود","لأنه خبر"], a: 1, d: "medium" },
+      { q: "أي من التالي صحيح نحوياً (الأعداد 3-10)؟", opts: ["عندي ثلاثة بنات","عندي ثلاث أولاد","عندي ثلاثة رجال","عندي ثلاثة نساء"], a: 2, d: "medium" },
+      { q: "العدد المركب يتكون من:", opts: ["العدد فقط","المعدود فقط","العدد والمعدود","جزأين عدديين"], a: 3, d: "easy" }
+    ]
+  },
+  {
+    id: 4,
+    title: "كان وأخواتها",
+    desc: "تعريف كان وأخواتها ومعانيها وعملها وأنواعها",
+    icon: "⚖️",
+    color: "#8b5cf6",
+    questions: [
+      { q: "كان وأخواتها هي أفعال:", opts: ["ناسخة تدخل على الجملة الفعلية","ناقصة تدخل على الجملة الاسمية","تامة تدخل على الجملة الاسمية","ناسخة تدخل على الجملة الاسمية فقط"], a: 3, d: "easy" },
+      { q: "عمل كان وأخواتها هو:", opts: ["ترفع المبتدأ وتنصب الخبر","تنصب المبتدأ وترفع الخبر","ترفع الاثنين","تنصب الاثنين"], a: 0, d: "easy" },
+      { q: "المبتدأ الذي يبقى مرفوعاً بعد دخول كان يسمى:", opts: ["خبر كان","اسم كان","فاعل كان","نائب فاعل"], a: 1, d: "easy" },
+      { q: "الخبر الذي يُنصب بعد دخول كان يسمى:", opts: ["اسم كان","خبر كان","مفعول به","حال"], a: 1, d: "easy" },
+      { q: "كان التامة تكتفي بـ:", opts: ["اسمها وخبرها","مرفوعها ولا تحتاج إلى خبر","منصوبها فقط","الاثنين معاً"], a: 1, d: "medium" },
+      { q: "مثال على كان التامة:", opts: ["كان الجوُّ ممطراً","كان المطرُ","كان الطالبُ مجتهداً","كانت المرأةُ صالحة"], a: 1, d: "medium" },
+      { q: "كان الناقصة تحتاج إلى:", opts: ["اسم فقط","خبر فقط","اسم وخبر","لا تحتاج شيئاً"], a: 2, d: "easy" },
+      { q: "ما معنى (أصبح) في كان وأخواتها؟", opts: ["يدل على الزمن الماضي","يدل على الجملة في وقت الصباح","يدل على النفي","يدل على الاستمرار"], a: 1, d: "medium" },
+      { q: "ما معنى (أضحى)؟", opts: ["يدل على الجملة في وقت الضحى","يدل على الصباح","يدل على المساء","يدل على النهار كله"], a: 0, d: "medium" },
+      { q: "ما معنى (بات)؟", opts: ["يدل على وقت الليل","يدل على وقت الصباح","يدل على التحويل","يدل على النفي"], a: 0, d: "medium" },
+      { q: "ما معنى (صار) في كان وأخواتها؟", opts: ["يدل على الاستمرار","يدل على التحويل والانتقال","يدل على النفي","يدل على الوقت"], a: 1, d: "medium" },
+      { q: "ما معنى (ليس) في كان وأخواتها؟", opts: ["يدل على الاستمرار","يدل على التحويل","يدل على النفي","يدل على الوقت"], a: 2, d: "easy" },
+      { q: "أفعال (مازال، مابرح، مافتئ، ماانفك) تدل على:", opts: ["الانقطاع","الاستمرار","التحويل","النفي"], a: 1, d: "medium" },
+      { q: "من الأفعال التي لا تتصرف في كان وأخواتها:", opts: ["كان، أصبح","بات، صار","ليس، ما دام","أضحى، أمسى"], a: 2, d: "hard" },
+      { q: "ما الذي يتصرف تصرفاً تاماً في كان وأخواتها؟", opts: ["ليس وما دام","مازال وما برح","كان وأصبح وأضحى وأمسى وبات وصار وظل","مافتئ وما انفك"], a: 2, d: "hard" },
+      { q: "ما يتصرف تصرفاً ناقصاً في كان وأخواتها:", opts: ["كان وليس","مازال وما برح وما فتئ وما انفك","كل أفعال كان","ليس وما دام"], a: 1, d: "hard" },
+      { q: "أنواع اسم كان هي:", opts: ["اسم ظاهر فقط","ضمير فقط","اسم ظاهر أو ضمير","جملة اسمية فقط"], a: 2, d: "medium" },
+      { q: "في جملة (كان الطالب نشيطاً) نوع خبر كان:", opts: ["خبر مفرد","جملة فعلية","جملة اسمية","شبه جملة"], a: 0, d: "easy" },
+      { q: "في جملة (كان الطالب يذاكر دروسه) خبر كان هو:", opts: ["جملة اسمية","جملة فعلية","شبه جملة","مفرد"], a: 1, d: "medium" },
+      { q: "في جملة (كان الطالب في الصف) خبر كان هو:", opts: ["مفرد","جملة اسمية","جملة فعلية","شبه جملة"], a: 3, d: "medium" },
+      { q: "شرط عمل (مازال وأخواتها) هو:", opts: ["دخول لا النافية","دخول ما النافية","دخول ما الزائدة","دخول لام التوكيد"], a: 1, d: "hard" },
+      { q: "في جملة (أحب الخير ما دمتُ حياً) كلمة (ما دمت) تدل على:", opts: ["الاستمرار في زمن محدد","النفي","التحويل","الصباح"], a: 0, d: "medium" },
+      { q: "الفعل (ظل) في كان وأخواتها يدل على:", opts: ["الجملة في وقت الليل","الجملة في وقت النهار","التحويل","النفي"], a: 1, d: "medium" },
+      { q: "في جملة (كان الجنديُّ شجاعاً) (كان) تدل على:", opts: ["الصباح","الزمن الماضي","التحويل","الاستمرار"], a: 1, d: "easy" },
+      { q: "في جملة (ضلّوا يلعبون حتى الصباح) الضمير المستتر في (ضلّوا) هو اسم الفعل الناقص. ما الخبر؟", opts: ["يلعبون","حتى الصباح","الضمير","لا خبر"], a: 0, d: "hard" }
+    ]
+  },
+  {
+    id: 5,
+    title: "إنَّ وأخواتها",
+    desc: "تعريف إن وأخواتها ومعانيها وعملها وما الكافة",
+    icon: "💡",
+    color: "#ef4444",
+    questions: [
+      { q: "إنَّ وأخواتها هي حروف:", opts: ["ناسخة تدخل على الجملة الفعلية","ناقصة","ناسخة تدخل على الجملة الاسمية فقط","تامة"], a: 2, d: "easy" },
+      { q: "عمل إنَّ وأخواتها:", opts: ["ترفع المبتدأ وتنصب الخبر","تنصب المبتدأ (اسمها) وترفع الخبر (خبرها)","ترفع الاثنين","تنصب الاثنين"], a: 1, d: "easy" },
+      { q: "ما معنى (إنَّ) في إن وأخواتها؟", opts: ["التمني","التشبيه","التوكيد","الاستدراك"], a: 2, d: "easy" },
+      { q: "ما معنى (أنَّ)؟", opts: ["للتوكيد وهي حرف مصدري","للتشبيه","للتمني","للترجي"], a: 0, d: "medium" },
+      { q: "ما معنى (كأنَّ)؟", opts: ["التوكيد","التشبيه","التمني","الاستدراك"], a: 1, d: "easy" },
+      { q: "ما معنى (ليتَ)؟", opts: ["التوكيد","التشبيه","التمني","الترجي"], a: 2, d: "easy" },
+      { q: "ما معنى (لعلَّ)؟", opts: ["التوكيد","التشبيه","التمني","الترجي"], a: 3, d: "easy" },
+      { q: "ما معنى (لكنَّ)؟", opts: ["التوكيد","التشبيه","الاستدراك","التمني"], a: 2, d: "easy" },
+      { q: "الفرق الرئيسي بين إنَّ وكان:", opts: ["لا فرق","إن حرف ينصب الأول ويرفع الثاني، وكان فعل يرفع الأول وينصب الثاني","إن فعل وكان حرف","كلاهما ينصبان"], a: 1, d: "medium" },
+      { q: "في جملة (إنَّ الطالبَ مجتهدٌ) إعراب (الطالب):", opts: ["مبتدأ مرفوع","اسم إن منصوب","فاعل مرفوع","مفعول به"], a: 1, d: "medium" },
+      { q: "اللام المزحلقة هي:", opts: ["لام التعليل","لام التوكيد التي تقترن بخبر إن وأخواتها","لام القسم","لام الجحود"], a: 1, d: "hard" },
+      { q: "مثال اللام المزحلقة:", opts: ["كان الطالب مجتهداً","إنَّ الساعةَ لآتيةٌ","لعل الله يرحمني","إن زيداً مجتهدٌ"], a: 1, d: "hard" },
+      { q: "في جملة (إنَّ الساعة لآتيةٌ) اللام في (لآتية) تسمى:", opts: ["لام الجحود","لام التعليل","اللام المزحلقة","لام القسم"], a: 2, d: "hard" },
+      { q: "ما الكافة في (إنما) تكف (إن) عن:", opts: ["العمل","الدخول على الجملة الاسمية","التوكيد","رفع الاسم"], a: 0, d: "hard" },
+      { q: "في جملة (إنما المؤمنون إخوةٌ) جاءت (إنما) فكفَّت (إن) عن العمل. كيف جاء ما بعدها؟", opts: ["منصوباً ومرفوعاً","مرفوعاً ومرفوعاً (مبتدأ وخبر)","منصوباً فقط","لا قاعدة"], a: 1, d: "hard" },
+      { q: "استثناء من قاعدة ما الكافة: أي الأفعال يجوز إعمالها مع (ما)؟", opts: ["إن","أن","ليت","لكن"], a: 2, d: "hard" },
+      { q: "أنواع اسم إنَّ وأخواتها:", opts: ["اسم ظاهر فقط","ضمير فقط","اسم ظاهر أو ضمير","جملة فقط"], a: 2, d: "medium" },
+      { q: "في جملة (فلعلَّك باخعٌ نفسك) اسم (لعل) هو:", opts: ["باخع","نفسك","الكاف الضمير","لعل"], a: 2, d: "hard" },
+      { q: "متى يتقدم خبر إنَّ وأخواتها وجوباً؟", opts: ["إذا كان الخبر مفرداً","إذا كان الخبر شبه جملة والاسم نكرة تامة، أو كان في الاسم ضمير يعود على بعض الخبر","دائماً","لا يتقدم أبداً"], a: 1, d: "hard" },
+      { q: "مثال تقدم الخبر وجوباً في إن:", opts: ["إن الطالب مجتهد","إن في المطالعة فائدةً","ليت الرجل قادم","كأن الجندي أسد"], a: 1, d: "hard" },
+      { q: "أنواع خبر إنَّ وأخواتها:", opts: ["مفرد فقط","مفرد أو جملة اسمية أو فعلية أو شبه جملة","جملة فقط","شبه جملة فقط"], a: 1, d: "medium" },
+      { q: "في جملة (كأنَّ الجنديين أسدانِ) خبر (كأن):", opts: ["جملة فعلية","مفرد","جملة اسمية","شبه جملة"], a: 1, d: "medium" },
+      { q: "في جملة (إنَّ الطيورَ فوق الأشجار) نوع خبر إن:", opts: ["مفرد","جملة فعلية","جملة اسمية","شبه جملة"], a: 3, d: "medium" },
+      { q: "في جملة (لعلَّكم تتقون) نوع خبر لعل:", opts: ["مفرد","جملة اسمية","جملة فعلية","شبه جملة"], a: 2, d: "medium" },
+      { q: "ما الفرق في المعنى بين (إن) و(أن)؟", opts: ["لا فرق","إن للتوكيد في صدر الجملة، وأن مصدرية حرف ناسخ","إن للتمني وأن للترجي","إن للتشبيه وأن للاستدراك"], a: 1, d: "hard" }
+    ]
+  },
+  {
+    id: 6,
+    title: "اسم التفضيل",
+    desc: "اشتقاق اسم التفضيل وشروطه وحالاته وأحكامه",
+    icon: "🏆",
+    color: "#f59e0b",
+    questions: [
+      { q: "اسم التفضيل هو:", opts: ["اسم مشتق يدل على أن شيئين اشتركا في صفة وزاد أحدهما على الآخر فيها","اسم يدل على الصفة الثابتة","اسم يدل على الفاعل","وزن أفعل فقط"], a: 0, d: "easy" },
+      { q: "الوزن القياسي لاسم التفضيل للمذكر هو:", opts: ["فعيل","فاعل","أفعل","مفعول"], a: 2, d: "easy" },
+      { q: "وزن المؤنث في اسم التفضيل هو:", opts: ["فعلاء","فاعلة","مفعلة","أفعل"], a: 0, d: "easy" },
+      { q: "من شروط صياغة اسم التفضيل مباشرة أن يكون الفعل:", opts: ["رباعياً","ثلاثياً","جامداً","ناقصاً"], a: 1, d: "medium" },
+      { q: "لا يُصاغ اسم التفضيل مباشرة إذا كان الفعل:", opts: ["ثلاثياً متصرفاً","على وزن أفعل فعلاء أو منفياً أو مبنياً للمجهول أو جامداً","رباعياً مجرداً","فعلاً صحيحاً"], a: 1, d: "hard" },
+      { q: "كيف نصوغ اسم التفضيل من الفعل (أعطى) بالطريقة غير المباشرة؟", opts: ["أعطى أكثر","نأتي بمصدر الفعل: محمد أكثر إعطاءً من زيد","نصوغه مباشرة: أعطى","لا يمكن"], a: 1, d: "hard" },
+      { q: "لماذا لا يمكن صياغة اسم التفضيل من (ليس، نعم، بئس)؟", opts: ["لأنها أفعال متعدية","لأنها أفعال جامدة","لأنها أفعال منفية","لأنها رباعية"], a: 1, d: "medium" },
+      { q: "الحالة الأولى لاسم التفضيل: مجرد من (ال) والإضافة. يلازم:", opts: ["المطابقة مع المعدود","حالة التذكير والإفراد ويأتي المفضل عليه مجروراً بـ(من)","المطابقة مع ما قبله","التأنيث دائماً"], a: 1, d: "hard" },
+      { q: "في جملة (المؤمن أفضل من المنافق) اسم التفضيل (أفضل):", opts: ["يطابق المفضل","يلزم التذكير والإفراد والمفضل عليه مجرور بـمن","يطابق المفضل عليه","تأنث مع مؤنث"], a: 1, d: "medium" },
+      { q: "الحالة الثانية: اسم التفضيل معرف بـ(ال). يجب أن:", opts: ["يلزم الإفراد والتذكير دائماً","يطابق ما قبله تذكيراً وتأنيثاً وإفراداً وتثنيةً وجمعاً","يأتي مع (من)","يُضاف إلى نكرة"], a: 1, d: "hard" },
+      { q: "في جملة (الطالب الأفضل ينجح) إعراب اسم التفضيل (الأفضل):", opts: ["خبر مرفوع","نعت مرفوع","مبتدأ","حال"], a: 1, d: "medium" },
+      { q: "في (الطالبان الأفضلان ينجحان) جاء اسم التفضيل:", opts: ["مفرداً","مثنى ليطابق المعدود قبله","جمعاً","لا يتغير"], a: 1, d: "medium" },
+      { q: "الحالة الثالثة: اسم التفضيل مضاف. إذا أضيف إلى نكرة:", opts: ["يلزم حالة واحدة (التذكير والإفراد)","يطابق ما قبله","لا قاعدة","يلزم التأنيث"], a: 0, d: "hard" },
+      { q: "في جملة (علي أحسن طالبٍ) و(هند أفضل معلمةٍ) — اسم التفضيل:", opts: ["طابق المؤنث في الثانية","لزم حالة واحدة في الجملتين رغم اختلاف المفضل","أُنّث في الثانية","جُمع في الأخيرة"], a: 1, d: "hard" },
+      { q: "الحالة الثالثة: اسم التفضيل مضاف إلى معرفة يطابق:", opts: ["يلزم الإفراد والتذكير","الاسم الذي قبله تذكيراً وتأنيثاً وإفراداً وجمعاً","المفضل عليه فقط","لا قاعدة"], a: 1, d: "hard" },
+      { q: "في (محمد أفضل الأنام) و(المؤمنات أفضل القوم) — ما القاعدة؟", opts: ["اسم التفضيل مضاف إلى معرفة فيطابق ما قبله","اسم التفضيل يلزم الإفراد","لا قاعدة","اسم التفضيل يخالف ما قبله"], a: 0, d: "hard" },
+      { q: "في جملة (في جملة محمد طيّب خلقاً) إعراب (خلقاً):", opts: ["فاعل","نائب فاعل","تمييز منصوب","مفعول به"], a: 2, d: "hard" },
+      { q: "أي من التالي اسم تفضيل مؤنث؟", opts: ["أكبر","أصغر","كبرى","أجمل"], a: 2, d: "medium" },
+      { q: "في جملة (زيد أكبر من عمرو) المفضل عليه هو:", opts: ["زيد","أكبر","عمرو المجرورة بمن","لا مفضل عليه"], a: 2, d: "easy" },
+      { q: "من الأفعال التي يمكن صياغة اسم التفضيل منها مباشرة:", opts: ["استخدم","أعطى","حمر (يدل على لون)","مات"], a: 2, d: "medium" },
+      { q: "شرط أن يكون الفعل (قابلاً للمفاضلة) يعني:", opts: ["أن يكون ثلاثياً","أن تقبل الصفة التفاوت بين شيئين","أن يكون صحيحاً","أن يكون متعدياً"], a: 1, d: "medium" },
+      { q: "شرط أن يكون الفعل (مثبتاً) في صياغة اسم التفضيل يعني:", opts: ["ألا يكون مسبوقاً بنفي أو نهي","أن يكون صحيحاً","أن يكون ثلاثياً","أن يكون للمعلوم"], a: 0, d: "medium" },
+      { q: "أي جملة تحتوي على اسم تفضيل صحيح؟", opts: ["محمد أحمر من علي (للون)","الجملة غير صحيحة لأن أحمر لون لا تفضيل","محمد أكثر حمرةً من علي","محمد أشد لوناً"], a: 2, d: "hard" },
+      { q: "المصدر الصريح في الطريقة غير المباشرة لاسم التفضيل يأتي:", opts: ["مبتدأً","تمييزاً منصوباً","فاعلاً","خبراً"], a: 1, d: "hard" },
+      { q: "في جملة (الجندي أشد موتاً من غيره) كلمة (موتاً) هي:", opts: ["حال","تمييز منصوب","مفعول مطلق","مضاف إليه"], a: 1, d: "hard" }
+    ]
+  },
+  {
+    id: 7,
+    title: "الصفة المشبهة والسيرة النبوية",
+    desc: "أوزان الصفة المشبهة وعمرو بن كلثوم والسيرة النبوية",
+    icon: "🌟",
+    color: "#06b6d4",
+    questions: [
+      { q: "الصفة المشبهة هي:", opts: ["اسم مشتق من الفعل الثلاثي اللازم","اسم مشتق يدل على من وقع عليه الفعل","اسم الفاعل من الفعل الرباعي","وزن مفعول"], a: 0, d: "easy" },
+      { q: "تختلف الصفة المشبهة عن اسم الفاعل بأنها تُشتق من الفعل الثلاثي:", opts: ["المتعدي","اللازم","الجامد","الرباعي"], a: 1, d: "medium" },
+      { q: "إذا كان الفعل من الباب الرابع (فَعِل – يَفْعَل) ودل على لون يكون وزن الصفة المشبهة:", opts: ["فعِل – فعِلة","فعلان – فعلى","أفعل – فعلاء","فيعل"], a: 2, d: "medium" },
+      { q: "الصفة المشبهة من الفعل (حَمِرَ) هي:", opts: ["حامر","محمور","أحمر – حمراء","حمران"], a: 2, d: "easy" },
+      { q: "الصفة المشبهة من الفعل (كَحِلَ) — الذي يدل على حلية — هي:", opts: ["كحلان","كاحل","أكحل – كحلاء","مكحول"], a: 2, d: "medium" },
+      { q: "إذا دل الفعل على عيب يكون وزن الصفة المشبهة:", opts: ["فعلان – فعلى","أفعل – فعلاء","فعيل","فاعل"], a: 1, d: "medium" },
+      { q: "الصفة المشبهة من الفعل (عَرِجَ) — يدل على عيب — هي:", opts: ["عارج","عروج","أعرج – عرجاء","عرجان"], a: 2, d: "medium" },
+      { q: "وزن (فعلان – فعلى) في الصفة المشبهة يدل على:", opts: ["اللون","الخلو والامتلاء","العيب","الحلية"], a: 1, d: "medium" },
+      { q: "الصفة المشبهة من الفعل (عَطِشَ) هي:", opts: ["عاطش","عطشى فقط","عطشان – عطشى","أعطش"], a: 2, d: "medium" },
+      { q: "وزن (فعِل – فعِلة) في الصفة المشبهة مثاله:", opts: ["أحمر – حمراء","فرِح – فرِحة","عطشان – عطشى","أعرج – عرجاء"], a: 1, d: "medium" },
+      { q: "كيف تُصاغ الصفة المشبهة من الفعل المعتل العين (الألف)؟", opts: ["على وزن أفعل – فعلاء","على وزن فيعل","على وزن فعلان","على وزن مفعول"], a: 1, d: "hard" },
+      { q: "الصفة المشبهة من الفعل (طاب) هي:", opts: ["طائب","طيّب – طيّب (وزن فيعل)","مطيب","طيبان"], a: 1, d: "hard" },
+      { q: "في (محمد طيّبُ الخُلقِ) إعراب (الخُلق):", opts: ["فاعل مرفوع","مضاف إليه مجرور","تمييز","مفعول به"], a: 1, d: "medium" },
+      { q: "في (محمد طيّبٌ خُلقاً) إعراب (خُلقاً):", opts: ["مضاف إليه","فاعل","تمييز منصوب","حال"], a: 2, d: "medium" },
+      { q: "في (محمد طيّبٌ خُلقُه) إعراب (خُلقه):", opts: ["فاعل مرفوع","مضاف إليه","تمييز","مفعول به"], a: 0, d: "medium" },
+      { q: "عمرو بن كلثوم شاعر من عصر:", opts: ["الإسلامي","الأموي","الجاهلي","العباسي"], a: 2, d: "easy" },
+      { q: "ينتمي عمرو بن كلثوم إلى قبيلة:", opts: ["قريش","تميم","تغلب","كندة"], a: 2, d: "easy" },
+      { q: "يُعد عمرو بن كلثوم من أصحاب:", opts: ["شعراء الغزل","شعراء النقائض","المعلقات","شعراء الزهد فقط"], a: 2, d: "easy" },
+      { q: "السيرة النبوية في المعنى اللغوي مأخوذة من:", opts: ["الكتابة","السير أي الطريقة والمنهج","القراءة","التعليم"], a: 1, d: "easy" },
+      { q: "السيرة النبوية في المعنى الاصطلاحي هي:", opts: ["قصائد النبي ﷺ","الدراسة الشاملة لحياة النبي ﷺ من ولادته حتى وفاته","غزوات النبي ﷺ فقط","أخلاق النبي ﷺ فقط"], a: 1, d: "easy" },
+      { q: "ما الفرق بين السيرة والشمائل؟", opts: ["لا فرق","السيرة شاملة لحياته ﷺ والشمائل تعنى بصفاته الخَلقية والخُلقية","الشمائل أشمل من السيرة","السيرة تعنى بالغزوات فقط"], a: 1, d: "medium" },
+      { q: "المغازي في السيرة النبوية تختص بـ:", opts: ["أخلاق النبي ﷺ","صفاته الجسدية","غزواته وسراياه والجوانب العسكرية","ولادته ونسبه"], a: 2, d: "medium" },
+      { q: "ما هي القبيلة التي ينتمي إليها والد عمرو بن كلثوم؟", opts: ["قريش","بنو تغلب","بنو هاشم","قحطان"], a: 1, d: "medium" },
+      { q: "كيف قتل عمرو بن كلثوم ملكَ الحيرة؟", opts: ["في معركة","لأن الملك أساء لأم الشاعر فقتله","في مبارزة شعرية","لخلاف ديني"], a: 1, d: "medium" },
+      { q: "قيل في المثل العربي عن عمرو بن كلثوم:", opts: ["أحلم من الأحنف","أكرم من حاتم","أفتك من عمرو بن كلثوم","أفصح من قس"], a: 2, d: "easy" }
+    ]
+  }
+];
+
+// ===========================
+// STATE
+// ===========================
+let currentSection = 0;
+let userAnswers = [];
+let sectionResults = [];
+let timerInterval = null;
+let seconds = 0;
+
+// ===========================
+// FUNCTIONS
+// ===========================
+function startExam() {
+  document.getElementById('landing').style.display = 'none';
+  document.getElementById('exam-area').style.display = 'block';
+  userAnswers = new Array(sections.length).fill(null).map((_, si) =>
+    new Array(sections[si].questions.length).fill(-1)
+  );
+  renderSection(0);
+  startTimer();
+}
+
+function startTimer() {
+  timerInterval = setInterval(() => {
+    seconds++;
+    const el = document.getElementById('timer-display');
+    if (el) {
+      const m = String(Math.floor(seconds/60)).padStart(2,'0');
+      const s = String(seconds%60).padStart(2,'0');
+      el.textContent = m + ':' + s;
+    }
+  }, 1000);
+}
+
+function renderSection(si) {
+  const sec = sections[si];
+  const ea = document.getElementById('exam-area');
+  const totalQ = sections.reduce((a,b) => a + b.questions.length, 0);
+  const doneQ = sections.slice(0, si).reduce((a,b) => a + b.questions.length, 0);
+  const pct = Math.round(doneQ / totalQ * 100);
+
+  let html = `
+    <div class="topbar">
+      <div class="topbar-left">
+        <span class="topbar-title">اختبار اللغة العربية</span>
+        <span class="section-badge">القسم ${si+1} من ${sections.length}</span>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-label">
+          <span>التقدم الكلي</span>
+          <span>${pct}%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width:${pct}%"></div>
+        </div>
+      </div>
+      <div class="timer-box" id="timer-display">00:00</div>
+    </div>
+
+    <div class="section-header">
+      <div class="section-num">القسم ${si+1}</div>
+      <h2 class="section-title-main">${sec.icon} ${sec.title}</h2>
+      <p class="section-desc">${sec.desc}</p>
+      <div class="section-meta">
+        <span>📝 ${sec.questions.length} سؤال</span>
+        <span>⏱ حوالي ${Math.ceil(sec.questions.length * 1.2)} دقيقة</span>
+      </div>
+    </div>
+
+    <div class="questions-container" id="questions-wrap">
+  `;
+
+  sec.questions.forEach((q, qi) => {
+    const diff = q.d === 'easy' ? 'سهل' : q.d === 'medium' ? 'متوسط' : 'صعب';
+    const diffCls = q.d === 'easy' ? 'diff-easy' : q.d === 'medium' ? 'diff-medium' : 'diff-hard';
+    const letters = ['أ','ب','ج','د'];
+    let optsHtml = q.opts.map((opt, oi) => `
+      <button class="option-btn" id="opt-${qi}-${oi}" onclick="selectAnswer(${si},${qi},${oi})">
+        <span class="option-letter">${letters[oi]}</span>
+        <span class="option-text">${opt}</span>
+      </button>
+    `).join('');
+
+    html += `
+      <div class="question-card" id="qcard-${qi}" style="animation-delay:${qi*0.04}s">
+        <div class="q-header">
+          <div class="q-num">${qi+1}</div>
+          <div style="flex:1">
+            <div class="q-text">${q.q}</div>
+          </div>
+          <span class="q-difficulty ${diffCls}">${diff}</span>
+        </div>
+        <div class="options-grid">${optsHtml}</div>
+      </div>
+    `;
+  });
+
+  html += `
+    </div>
+    <div class="section-actions">
+      <button class="submit-section-btn" id="submit-sec-btn" onclick="submitSection(${si})">
+        تسليم القسم ✓
+      </button>
+    </div>
+    <div class="result-panel" id="result-panel-${si}"></div>
+  `;
+
+  ea.innerHTML = html;
+
+  // restore timer
+  const timerEl = document.getElementById('timer-display');
+  if (timerEl) {
+    const m = String(Math.floor(seconds/60)).padStart(2,'0');
+    const s = String(seconds%60).padStart(2,'0');
+    timerEl.textContent = m + ':' + s;
+  }
+
+  // restore previous answers if any
+  userAnswers[si].forEach((ans, qi) => {
+    if (ans !== -1) highlightSelected(si, qi, ans, false);
+  });
+  updateSubmitBtn(si);
+}
+
+function selectAnswer(si, qi, oi) {
+  // Only allow if not submitted
+  if (document.getElementById(`opt-${qi}-0`)?.disabled) return;
+
+  // Clear previous selection for this question
+  const prev = userAnswers[si][qi];
+  if (prev !== -1) {
+    const prevBtn = document.getElementById(`opt-${qi}-${prev}`);
+    if (prevBtn) { prevBtn.classList.remove('selected'); }
+  }
+
+  userAnswers[si][qi] = oi;
+  highlightSelected(si, qi, oi, false);
+  updateSubmitBtn(si);
+
+  // Mark card as answered
+  const card = document.getElementById(`qcard-${qi}`);
+  if (card) card.classList.add('answered');
+}
+
+function highlightSelected(si, qi, oi, disabled) {
+  const sec = sections[si];
+  const btn = document.getElementById(`opt-${qi}-${oi}`);
+  if (!btn) return;
+  btn.classList.add('selected');
+  if (disabled) btn.disabled = true;
+}
+
+function updateSubmitBtn(si) {
+  const btn = document.getElementById('submit-sec-btn');
+  if (!btn) return;
+  const answered = userAnswers[si].filter(a => a !== -1).length;
+  btn.textContent = `تسليم القسم (${answered}/${sections[si].questions.length}) ✓`;
+}
+
+function submitSection(si) {
+  const sec = sections[si];
+  let correct = 0, wrong = 0, unanswered = 0;
+  const details = [];
+
+  sec.questions.forEach((q, qi) => {
+    const ans = userAnswers[si][qi];
+    const correctAns = q.a;
+    const letters = ['أ','ب','ج','د'];
+
+    // Disable all buttons for this question
+    q.opts.forEach((_, oi) => {
+      const btn = document.getElementById(`opt-${qi}-${oi}`);
+      if (!btn) return;
+      btn.disabled = true;
+      btn.onclick = null;
+      if (oi === correctAns) btn.classList.add('reveal-correct');
+    });
+
+    if (ans === -1) {
+      unanswered++;
+      details.push({ q: q.q, userAns: 'لم تجب', correctAns: q.opts[correctAns], status: 'wrong' });
+    } else if (ans === correctAns) {
+      correct++;
+      const btn = document.getElementById(`opt-${qi}-${ans}`);
+      if (btn) { btn.classList.remove('selected'); btn.classList.add('correct'); btn.querySelector('.option-icon') && null; }
+      details.push({ q: q.q, userAns: q.opts[ans], correctAns: q.opts[correctAns], status: 'correct' });
+    } else {
+      wrong++;
+      const wBtn = document.getElementById(`opt-${qi}-${ans}`);
+      if (wBtn) { wBtn.classList.remove('selected'); wBtn.classList.add('wrong'); }
+      details.push({ q: q.q, userAns: q.opts[ans], correctAns: q.opts[correctAns], status: 'wrong' });
+    }
+  });
+
+  const total = sec.questions.length;
+  const pct = Math.round(correct / total * 100);
+  sectionResults[si] = { correct, wrong, unanswered, total, pct };
+
+  // Hide submit btn
+  const submitBtn = document.getElementById('submit-sec-btn');
+  if (submitBtn) submitBtn.style.display = 'none';
+
+  // Show result
+  showSectionResult(si, correct, wrong, unanswered, total, pct, details);
+}
+
+function showSectionResult(si, correct, wrong, unanswered, total, pct, details) {
+  let icon, grade, msg;
+  if (pct >= 90) { icon = '🌟'; grade = 'ممتاز'; msg = 'أداء رائع! أنت متميز في هذا القسم.'; }
+  else if (pct >= 75) { icon = '✅'; grade = 'جيد جداً'; msg = 'أداء جيد جداً، استمر في التحسن!'; }
+  else if (pct >= 60) { icon = '👍'; grade = 'جيد'; msg = 'أداء مقبول، يمكنك التحسن أكثر.'; }
+  else if (pct >= 50) { icon = '📚'; grade = 'مقبول'; msg = 'تحتاج إلى مراجعة هذا الموضوع.'; }
+  else { icon = '🔄'; grade = 'ضعيف'; msg = 'يُنصح بمراجعة المحاضرات مجدداً.'; }
+
+  const isLast = si === sections.length - 1;
+
+  let reviewHtml = details.map((d, i) => `
+    <div class="review-item ${d.status === 'correct' ? 'correct-item' : 'wrong-item'}">
+      <div class="review-q"><strong>${i+1}.</strong> ${d.q}</div>
+      ${d.status === 'correct'
+        ? `<span class="review-answer review-correct-ans">✓ إجابتك صحيحة: ${d.correctAns}</span>`
+        : `<div>
+            <span class="review-answer review-wrong-ans">✗ إجابتك: ${d.userAns}</span>
+            <span class="review-answer review-correct-ans" style="margin-right:8px">✓ الصحيح: ${d.correctAns}</span>
+           </div>`
+      }
+    </div>
+  `).join('');
+
+  const rp = document.getElementById(`result-panel-${si}`);
+  if (!rp) return;
+  rp.style.display = 'block';
+  rp.innerHTML = `
+    <div class="result-card">
+      <div class="result-icon">${icon}</div>
+      <div class="result-grade">${pct}%</div>
+      <div class="result-label">${grade}</div>
+      <div class="result-stats">
+        <div class="res-stat rs-correct">
+          <div class="rs-num">${correct}</div>
+          <div class="rs-label">✓ إجابات صحيحة</div>
+        </div>
+        <div class="res-stat rs-wrong">
+          <div class="rs-num">${wrong + unanswered}</div>
+          <div class="rs-label">✗ إجابات خاطئة</div>
+        </div>
+        <div class="res-stat rs-score">
+          <div class="rs-num">${correct}/${total}</div>
+          <div class="rs-label">النتيجة</div>
+        </div>
+      </div>
+      <div class="result-message">${msg}</div>
+      <div class="result-actions">
+        <button class="btn-review" onclick="toggleReview(${si})">👁 مراجعة الأخطاء</button>
+        ${isLast
+          ? `<button class="btn-next-section" onclick="showFinal()">عرض النتيجة النهائية 🏆</button>`
+          : `<button class="btn-next-section" onclick="goNextSection(${si+1})">القسم التالي: ${sections[si+1].title} ←</button>`
+        }
+      </div>
+    </div>
+    <div class="review-list" id="review-${si}">
+      <h3 style="text-align:center; color:var(--gold); font-family:'Amiri',serif; font-size:22px; margin-bottom:20px; padding: 0 20px;">مراجعة الإجابات</h3>
+      ${reviewHtml}
+    </div>
+  `;
+
+  rp.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function toggleReview(si) {
+  const rv = document.getElementById(`review-${si}`);
+  if (!rv) return;
+  rv.style.display = rv.style.display === 'block' ? 'none' : 'block';
+  if (rv.style.display === 'block') rv.scrollIntoView({ behavior: 'smooth' });
+}
+
+function goNextSection(si) {
+  currentSection = si;
+  renderSection(si);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showFinal() {
+  clearInterval(timerInterval);
+  document.getElementById('exam-area').style.display = 'none';
+  const fs = document.getElementById('final-summary');
+  fs.style.display = 'flex';
+  fs.style.flexDirection = 'column';
+  fs.style.alignItems = 'center';
+  fs.style.justifyContent = 'center';
+
+  const totalCorrect = sectionResults.reduce((a, b) => a + (b ? b.correct : 0), 0);
+  const totalQ = sections.reduce((a,b) => a + b.questions.length, 0);
+  const totalPct = Math.round(totalCorrect / totalQ * 100);
+
+  document.getElementById('final-pct').textContent = totalPct + '%';
+
+  let breakdownHtml = sections.map((sec, si) => {
+    const r = sectionResults[si] || { correct: 0, total: sec.questions.length, pct: 0 };
+    return `
+      <div class="fb-card">
+        <div class="fb-sec">${sec.icon} ${sec.title}</div>
+        <div class="fb-score">${r.correct}/${r.total} (${r.pct}%)</div>
+        <div class="fb-bar"><div class="fb-fill" style="width:0%" data-w="${r.pct}"></div></div>
+      </div>
+    `;
+  }).join('');
+
+  document.getElementById('final-breakdown').innerHTML = breakdownHtml;
+
+  setTimeout(() => {
+    document.querySelectorAll('.fb-fill').forEach(el => {
+      el.style.width = el.dataset.w + '%';
+    });
+  }, 300);
+
+  if (totalPct >= 75) launchConfetti();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function launchConfetti() {
+  const colors = ['#c9a84c','#f0d080','#3b82f6','#22c55e','#ef4444','#8b5cf6'];
+  for (let i = 0; i < 60; i++) {
+    setTimeout(() => {
+      const c = document.createElement('div');
+      c.className = 'confetti';
+      c.style.cssText = `
+        left: ${Math.random()*100}vw;
+        top: -20px;
+        width: ${6+Math.random()*8}px;
+        height: ${6+Math.random()*8}px;
+        background: ${colors[Math.floor(Math.random()*colors.length)]};
+        border-radius: ${Math.random() > 0.5 ? '50%' : '0'};
+        animation: fall ${2+Math.random()*3}s linear forwards;
+      `;
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 5000);
+    }, i * 60);
+  }
+}
+
+// Add fall animation
+const style = document.createElement('style');
+style.textContent = `
+@keyframes fall {
+  to { transform: translateY(110vh) rotate(${Math.random()*720}deg); opacity: 0; }
+}
+`;
+document.head.appendChild(style);
+</script>
+</body>
+</html>
